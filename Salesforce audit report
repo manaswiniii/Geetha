@@ -1,0 +1,13 @@
+import pandas as pd
+import numpy as np
+from pandas import Series
+from simple_salesforce import Salesforce
+sf = Salesforce(username='gdjhhjfkj@gmail.com', password='********', security_token = 'cAEt4arnER8LJO5LwWsbYBo6') 
+import requests
+session = requests.Session() 
+from io import StringIO
+audit_report_defined = session.get("https://redhat.my.salesforce.com/00Of2000005CkTd?export=1&enc=UTF-8&xf=csv".format('00Of2000005CkTd'), headers=sf.headers, cookies={'sid': sf.session_id})
+df_sfdc_audit_report_defined = pd.DataFrame.from_csv(StringIO(audit_report_defined.text))
+df_sfdc_audit_report_defined = df_sfdc_audit_report_defined.to_csv('defined.csv', encoding = 'utf-8')
+audit_report = pd.read_csv('defined.csv')
+audit_report
